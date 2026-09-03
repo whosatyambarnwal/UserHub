@@ -1,39 +1,49 @@
 # UserHub - Laravel Admin & User Management System
 
-A robust and minimalist User & Admin Management Panel built with Laravel, featuring multi-role authentication, soft deletes, user impersonation, activity logging, and Super Admin protection.
+[![GitHub Repository](https://img.shields.io/badge/GitHub-whosatyambarnwal%2FUserHub-blue?logo=github)](https://github.com/whosatyambarnwal/UserHub)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+**UserHub** is a clean, robust, and minimalist Admin & User Management Panel built with Laravel. It features multi-role authentication, soft deletes, user impersonation, activity audit logging, inline validation feedback, smart routing, and root Super Admin account protection.
+
+🔗 **GitHub Repository**: [https://github.com/whosatyambarnwal/UserHub](https://github.com/whosatyambarnwal/UserHub)
 
 ---
 
 ## 🚀 Key Features
 
-### 1. Authentication & Role Management
-- **Separate Authentication Portals**: Distinct login flows for Administrators (`/admin/login`) and Regular Users (`/login`).
-- **Role-Based Access Control (RBAC)**: Custom middlewares (`IsAdmin`, `IsUser`) enforcing route protection.
-- **Super Administrator Key**: Root administrator account protected against deletion, impersonation, tampering, or password reset by other administrators.
+### 1. Authentication & Multi-Role Access Control (RBAC)
+- **Separate Portals**: Dedicated authentication flows for Administrators (`/admin/login`) and Regular Users (`/login`).
+- **Smart URL Redirects**:
+  - Direct `/admin` URL shortcut automatically redirects to `/admin/dashboard` (if authenticated) or `/admin/login`.
+  - Already logged-in users visiting `/login` or `/admin/login` are seamlessly redirected to their respective dashboard.
+- **Super Administrator Protection**: Root admin account (`is_super_admin`) is strictly protected against deletion, impersonation, tampering, or password changes by other administrators.
+- **Role & Status Middlewares**: Custom `IsAdmin` and `IsUser` route protection, including instant blocking of deactivated accounts.
 
-### 2. Admin Dashboard & User Management
-- **Dashboard Metrics**: Summary cards displaying total users, active/inactive counts, and admin distribution with recent activity logs.
-- **Full User CRUD**: Create, read, update, and manage accounts.
-- **Search & Filters**: Instant multi-field search (Name, Email, Mobile) with role and status filtering.
-- **Soft Deletes & Trash Management**: Move users to trash, restore deleted records, or permanently delete accounts.
-- **One-Click Status Toggle**: Instantly activate/deactivate accounts directly from the table.
-- **User Impersonation**: Admin can log in as any user to inspect their interface, with a sticky exit banner to return to the admin panel.
+### 2. User Management & Admin Dashboard
+- **Analytics & Metrics**: Real-time summary statistics for Total Users, Active Users, Inactive Users, and Admins alongside recent activity feeds.
+- **Full User CRUD**: Create, read, edit, and manage accounts with inline field-level validation and error indicators.
+- **Live Search & Multi-Filters**: Instant search by Name, Email, or Mobile, with combined filtering by Role and Status.
+- **Soft Deletes & Trash Management**: Safely trash accounts, view deleted records, restore accounts with one click, or perform permanent deletions.
+- **Instant Status Toggle**: Activate or deactivate accounts directly from the user table without page reloads.
+- **User Impersonation**: Administrators can safely impersonate any user to view the portal from their perspective, with an exit bar to return immediately.
 
-### 3. User Portal & Profile
-- **User Dashboard**: Clean personal overview with account statistics.
-- **Profile & Password Management**: Self-service profile updates and password change with validation of current password.
+### 3. User Portal & Self-Service Profile
+- **Personal Dashboard**: Account overview and activity history.
+- **Profile & Password Management**: Update personal info and change password with verification of current password and tab persistence.
 
-### 4. System Audit Logs
-- Comprehensive audit trail capturing user registrations, profile changes, logins, status toggles, deletions, and impersonations with IP addresses and timestamps.
+### 4. Audit Logging & System Activity
+- Full audit log tracking account registrations, profile updates, logins/logouts, status changes, soft/force deletes, and admin impersonations with timestamps and actor tracking.
+
+### 5. Minimalist Light UI
+- Clean, developer-friendly light theme across all layouts, sidebars, modals, tables, and pagination components.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Framework**: Laravel 11.x / 12.x
-- **PHP Version**: 8.2+ (PHP 8.3 recommended)
-- **Database**: SQLite (Self-contained application database, zero external database setup required) / MySQL
-- **Frontend**: Blade, Tailwind CSS, Alpine.js, FontAwesome 6
+- **Backend**: Laravel 11.x / 12.x (PHP 8.2+)
+- **Database**: SQLite (Self-contained application database, zero external server configuration required) / MySQL compatible
+- **Frontend**: Blade Templates, Tailwind CSS, Alpine.js, FontAwesome 6
 
 ---
 
@@ -41,11 +51,11 @@ A robust and minimalist User & Admin Management Panel built with Laravel, featur
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url> userhub
-   cd userhub
+   git clone https://github.com/whosatyambarnwal/UserHub.git
+   cd UserHub
    ```
 
-2. **Install PHP dependencies:**
+2. **Install Composer dependencies:**
    ```bash
    composer install
    ```
@@ -55,33 +65,33 @@ A robust and minimalist User & Admin Management Panel built with Laravel, featur
    cp .env.example .env
    php artisan key:generate
    ```
-   *By default, the project uses SQLite (`DB_CONNECTION=sqlite`), making deployment instant without an external database server.*
+   *By default, the project is configured with SQLite (`DB_CONNECTION=sqlite`), enabling instant local and cloud deployment without setting up a separate database server.*
 
-4. **Run Database Migrations & Seeders:**
+4. **Run Migrations & Seed Database:**
    ```bash
    php artisan migrate:fresh --seed
    ```
 
-5. **Start the Development Server:**
+5. **Start the Local Development Server:**
    ```bash
    php artisan serve
    ```
-   The application will be accessible at `http://localhost:8000`.
+   Access the application at `http://localhost:8000`.
 
 ---
 
 ## 🔑 Default Credentials
 
-| Role | Portal URL | Email | Password | Status | Notes |
-|---|---|---|---|---|---|
-| **Super Admin** | `/admin/login` | `admin@yopmail.com` | `password123` | Active | Root protected administrator |
-| **Admin** | `/admin/login` | `vikram.admin@yopmail.com` | `password123` | Active | Standard Administrator |
-| **Normal User** | `/login` | `user@yopmail.com` | `password123` | Active | Regular User portal |
-| **Deactivated User** | `/login` | `inactive@yopmail.com` | `password123` | Inactive | Account blocked demo |
+| Role | Portal URL | Name | Email | Password | Status | Notes |
+|---|---|---|---|---|---|---|
+| **Super Admin** | [`/admin/login`](http://localhost:8000/admin/login) | Rajesh Sharma | `admin@yopmail.com` | `password123` | **Active** | Root Super Admin (Protected) |
+| **Admin** | [`/admin/login`](http://localhost:8000/admin/login) | Vikram Malhotra | `vikram.admin@yopmail.com` | `password123` | **Active** | Standard Administrator |
+| **Normal User** | [`/login`](http://localhost:8000/login) | Priya Patel | `user@yopmail.com` | `password123` | **Active** | Regular User Portal |
+| **Deactivated User** | [`/login`](http://localhost:8000/login) | Amit Verma | `inactive@yopmail.com` | `password123` | **Inactive** | Blocked account demonstration |
 
 ---
 
-## 📁 Project Architecture
+## 📁 Project Structure
 
 ```
 app/
@@ -108,4 +118,5 @@ app/
 ---
 
 ## 📄 License
-This project is open-sourced under the [MIT license](https://opensource.org/licenses/MIT).
+
+This project is open-source software licensed under the [MIT License](https://opensource.org/licenses/MIT).
