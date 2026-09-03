@@ -30,9 +30,6 @@
 !/storage/logs/.gitignore
 /storage/pail
 
-# Database & SQLite
-/database/*.sqlite
-/database/*.sqlite-journal
 # Public Build & Assets
 /public/build
 /public/hot
