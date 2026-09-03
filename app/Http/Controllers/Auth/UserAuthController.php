@@ -20,7 +20,9 @@ class UserAuthController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('user.dashboard');
+            return Auth::user()->isAdmin()
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('user.dashboard');
         }
 
         return view('auth.login');
@@ -75,7 +77,9 @@ class UserAuthController extends Controller
     public function showRegisterForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('user.dashboard');
+            return Auth::user()->isAdmin()
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('user.dashboard');
         }
 
         return view('auth.register');

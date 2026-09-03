@@ -7,11 +7,30 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Public Root Redirect
+// ----------------------------------------------------
+// Public Root & Admin Shortcut Redirects
+// ----------------------------------------------------
 Route::get('/', function () {
+    if (Auth::check()) {
+        return Auth::user()->isAdmin()
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('user.dashboard');
+    }
+
     return redirect()->route('login');
+});
+
+Route::get('/admin', function () {
+    if (Auth::check()) {
+        return Auth::user()->isAdmin()
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('user.dashboard');
+    }
+
+    return redirect()->route('admin.login');
 });
 
 // ----------------------------------------------------
@@ -25,7 +44,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [UserAuthController::class, 'register']);
 });
 
-Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::match(['get', 'post'], '/logout', [UserAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // ----------------------------------------------------
 // Admin Authentication Routes
@@ -36,7 +55,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/login', [AdminAuthController::class, 'login']);
     });
 
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth');
+    Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth');
 });
 
 // ----------------------------------------------------
