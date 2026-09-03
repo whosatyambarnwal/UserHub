@@ -35,6 +35,10 @@ class ProfileController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'mobile' => ['nullable', 'string', 'regex:/^[0-9+\-\s()]{7,20}$/'],
         ], [
+            'name.required' => 'The full name field is required.',
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email address is already in use by another account.',
             'mobile.regex' => 'The mobile number format is invalid. Please enter a valid phone number.',
         ]);
 
@@ -60,8 +64,12 @@ class ProfileController extends Controller
             'current_password' => ['required', 'string', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
         ], [
+            'current_password.required' => 'Please enter your current password.',
+            'current_password.current_password' => 'The current password you provided is incorrect.',
+            'password.required' => 'Please enter a new password.',
+            'password.min' => 'The new password must be at least 8 characters long.',
+            'password.confirmed' => 'The new password confirmation does not match.',
             'password.different' => 'The new password must be different from your current password.',
-            'current_password.current_password' => 'The provided current password does not match our records.',
         ]);
 
         $user->update([

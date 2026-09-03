@@ -33,6 +33,10 @@ class AdminAuthController extends Controller
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
+        ], [
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'password.required' => 'The password field is required.',
         ]);
 
         $credentials = $request->only('email', 'password');

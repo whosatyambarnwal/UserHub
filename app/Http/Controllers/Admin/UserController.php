@@ -75,7 +75,18 @@ class UserController extends Controller
             'status' => ['required', 'in:active,inactive'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
+            'name.required' => 'The full name field is required.',
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already in use.',
             'mobile.regex' => 'The mobile number format is invalid. Please enter a valid phone number.',
+            'role.required' => 'Please select a role.',
+            'role.in' => 'Invalid role selected.',
+            'status.required' => 'Please select a status.',
+            'status.in' => 'Invalid status selected.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 8 characters long.',
+            'password.confirmed' => 'The password confirmation does not match.',
         ]);
 
         $user = User::create([
@@ -135,7 +146,17 @@ class UserController extends Controller
             'status' => ['required', 'in:active,inactive'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ], [
+            'name.required' => 'The full name field is required.',
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already in use by another account.',
             'mobile.regex' => 'The mobile number format is invalid. Please enter a valid phone number.',
+            'role.required' => 'Please select a role.',
+            'role.in' => 'Invalid role selected.',
+            'status.required' => 'Please select a status.',
+            'status.in' => 'Invalid status selected.',
+            'password.min' => 'The new password must be at least 8 characters long.',
+            'password.confirmed' => 'The new password confirmation does not match.',
         ]);
 
         $data = [

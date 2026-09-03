@@ -35,6 +35,10 @@ class UserAuthController extends Controller
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
+        ], [
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'password.required' => 'The password field is required.',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -88,7 +92,14 @@ class UserAuthController extends Controller
             'mobile' => ['nullable', 'string', 'regex:/^[0-9+\-\s()]{7,20}$/'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
+            'name.required' => 'The full name field is required.',
+            'email.required' => 'The email address field is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already registered.',
             'mobile.regex' => 'The mobile number format is invalid. Please enter a valid phone number.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 8 characters long.',
+            'password.confirmed' => 'The password confirmation does not match.',
         ]);
 
         $user = User::create([

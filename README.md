@@ -32,7 +32,7 @@ A robust and minimalist User & Admin Management Panel built with Laravel, featur
 
 - **Framework**: Laravel 11.x / 12.x
 - **PHP Version**: 8.2+ (PHP 8.3 recommended)
-- **Database**: MySQL
+- **Database**: SQLite (Self-contained application database, zero external database setup required) / MySQL
 - **Frontend**: Blade, Tailwind CSS, Alpine.js, FontAwesome 6
 
 ---
@@ -55,15 +55,7 @@ A robust and minimalist User & Admin Management Panel built with Laravel, featur
    cp .env.example .env
    php artisan key:generate
    ```
-   *Make sure your MySQL server is running and configure database credentials in `.env`:*
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=admin_panel_demo
-   DB_USERNAME=root
-   DB_PASSWORD=
-   ```
+   *By default, the project uses SQLite (`DB_CONNECTION=sqlite`), making deployment instant without an external database server.*
 
 4. **Run Database Migrations & Seeders:**
    ```bash

@@ -23,7 +23,18 @@
             </span>
         </div>
 
-        <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-4">
+        @if($errors->any())
+        <div class="mb-4 bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded">
+            <p class="font-semibold mb-1">Please fix the following errors:</p>
+            <ul class="list-disc list-inside space-y-0.5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-4" novalidate>
             @csrf
             @method('PUT')
 
@@ -33,7 +44,10 @@
                         Full Name <span class="text-red-500">*</span>
                     </label>
                     <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" required
-                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full px-3 py-2 bg-white border @error('name') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('name') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror">
+                    @error('name')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
@@ -41,7 +55,10 @@
                         Email Address <span class="text-red-500">*</span>
                     </label>
                     <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" required
-                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full px-3 py-2 bg-white border @error('email') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('email') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror">
+                    @error('email')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -49,8 +66,11 @@
                 <div>
                     <label for="mobile" class="block text-xs font-medium text-gray-700 mb-1">Mobile Number</label>
                     <input id="mobile" type="text" name="mobile" value="{{ old('mobile', $user->mobile) }}"
-                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        class="w-full px-3 py-2 bg-white border @error('mobile') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('mobile') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror"
                         placeholder="+91 98765 43210">
+                    @error('mobile')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
@@ -63,10 +83,13 @@
                             <i class="fa-solid fa-lock text-xs mr-1 text-gray-400"></i> Super Admin
                         </div>
                     @else
-                        <select id="role" name="role" required class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        <select id="role" name="role" required class="w-full px-3 py-2 bg-white border @error('role') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('role') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror">
                             <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
                             <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
                         </select>
+                        @error('role')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     @endif
                 </div>
 
@@ -80,10 +103,13 @@
                             <i class="fa-solid fa-lock text-xs mr-1 text-gray-400"></i> Active (Locked)
                         </div>
                     @else
-                        <select id="status" name="status" required class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        <select id="status" name="status" required class="w-full px-3 py-2 bg-white border @error('status') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('status') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror">
                             <option value="active" {{ old('status', $user->status) === 'active' ? 'selected' : '' }}>Active</option>
                             <option value="inactive" {{ old('status', $user->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
+                        @error('status')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     @endif
                 </div>
             </div>
@@ -94,15 +120,21 @@
                     <div>
                         <label for="password" class="block text-xs font-medium text-gray-600 mb-1">New Password</label>
                         <input id="password" type="password" name="password"
-                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                            class="w-full px-3 py-2 bg-white border @error('password') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('password') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror"
                             placeholder="Leave blank to keep current">
+                        @error('password')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label for="password_confirmation" class="block text-xs font-medium text-gray-600 mb-1">Confirm New Password</label>
                         <input id="password_confirmation" type="password" name="password_confirmation"
-                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                            class="w-full px-3 py-2 bg-white border @error('password_confirmation') border-red-500 @else border-gray-300 @enderror rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 @error('password_confirmation') focus:ring-red-500 focus:border-red-500 @else focus:ring-blue-500 focus:border-blue-500 @enderror"
                             placeholder="Repeat new password">
+                        @error('password_confirmation')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>

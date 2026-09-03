@@ -6,8 +6,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Panel') - {{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS with light mode enforced -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Disable automatic media query dark mode
+        }
+    </script>
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Alpine.js -->
@@ -30,60 +35,60 @@
 
     <div class="flex-1 flex overflow-hidden">
         <!-- Mobile Sidebar Backdrop -->
-        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-gray-600/50 z-40 lg:hidden" style="display: none;"></div>
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-gray-600/30 z-40 lg:hidden" style="display: none;"></div>
 
         <!-- Sidebar -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-800 transition-transform duration-200 lg:translate-x-0 lg:static lg:inset-0 flex flex-col justify-between">
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-200 lg:translate-x-0 lg:static lg:inset-0 flex flex-col justify-between">
             <div>
                 <!-- Brand -->
-                <div class="flex items-center justify-between h-16 px-6 bg-slate-950 border-b border-slate-800">
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 text-white font-bold text-lg tracking-tight">
-                        <span class="text-blue-500"><i class="fa-solid fa-layer-group"></i></span>
+                <div class="flex items-center justify-between h-16 px-6 bg-white border-b border-gray-200">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 text-gray-900 font-bold text-lg tracking-tight">
+                        <span class="text-blue-600"><i class="fa-solid fa-layer-group"></i></span>
                         <span>Admin Panel</span>
                     </a>
-                    <button @click="sidebarOpen = false" class="text-gray-400 hover:text-white lg:hidden">
+                    <button @click="sidebarOpen = false" class="text-gray-400 hover:text-gray-600 lg:hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
 
                 <!-- Nav Menu -->
                 <nav class="p-4 space-y-1">
-                    <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Management</p>
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Management</p>
 
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-                        <i class="fa-solid fa-gauge w-5 mr-2 text-sm"></i>
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <i class="fa-solid fa-gauge w-5 mr-2 text-sm {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-400' }}"></i>
                         Dashboard
                     </a>
 
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.users.*') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-                        <i class="fa-solid fa-users w-5 mr-2 text-sm"></i>
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.users.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <i class="fa-solid fa-users w-5 mr-2 text-sm {{ request()->routeIs('admin.users.*') ? 'text-blue-600' : 'text-gray-400' }}"></i>
                         Users
                     </a>
 
-                    <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-2">System</p>
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-2">System</p>
 
-                    <a href="{{ route('admin.activity-logs.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.activity-logs.*') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-                        <i class="fa-solid fa-list-check w-5 mr-2 text-sm"></i>
+                    <a href="{{ route('admin.activity-logs.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition {{ request()->routeIs('admin.activity-logs.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <i class="fa-solid fa-list-check w-5 mr-2 text-sm {{ request()->routeIs('admin.activity-logs.*') ? 'text-blue-600' : 'text-gray-400' }}"></i>
                         Activity Logs
                     </a>
 
-                    <a href="{{ route('user.dashboard') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
-                        <i class="fa-solid fa-arrow-up-right-from-square w-5 mr-2 text-sm"></i>
+                    <a href="{{ route('user.dashboard') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                        <i class="fa-solid fa-arrow-up-right-from-square w-5 mr-2 text-sm text-gray-400"></i>
                         User View
                     </a>
                 </nav>
             </div>
 
             <!-- Profile / Logout Footer -->
-            <div class="p-4 border-t border-slate-800 bg-slate-950">
+            <div class="p-4 border-t border-gray-200 bg-gray-50">
                 <div class="flex items-center justify-between">
                     <div class="truncate">
-                        <p class="text-sm font-medium text-white truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
-                        <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? '' }}</p>
+                        <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
+                        <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email ?? '' }}</p>
                     </div>
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
-                        <button type="submit" title="Logout" class="p-1.5 text-slate-400 hover:text-red-400 rounded transition">
+                        <button type="submit" title="Logout" class="p-1.5 text-gray-400 hover:text-red-600 rounded transition">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </button>
                     </form>
